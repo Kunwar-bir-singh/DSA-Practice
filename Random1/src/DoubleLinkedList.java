@@ -68,7 +68,6 @@ public class DoubleLinkedList {
             temp = temp.next;
 
         }
-        System.out.println(temp.value);
         Node before = temp.prev;
         Node newNode = new Node(value);
 
@@ -106,10 +105,22 @@ public class DoubleLinkedList {
     }
 
     public void deleteIndex(int index){
+        if(index ==  size-1){
+            deleteLast();
+            return;
+        }
+        if(index ==0 ){
+            deleteFirst();
+            return;
+        }
         Node before = head;
         for(int i = 0 ; i < index-1 ; i++){
-
+            before =  before.next;
         }
+        System.out.println("Value Deleted :" + before.next.value);
+        before.next.next.prev = before;
+        before.next = before.next.next;
+        size--;
     }
     private class Node{
         private int value;
