@@ -2,8 +2,10 @@ import java.util.ArrayList;
 
 public class MergeSort {
     public static void main(String[] args) {
-        int arr[] = {13, 20 , 2 , 5 ,19, 9 , 7};
+        int arr[] = {20,13 , 2 , 5 ,19, 9 , 7};
+        printArr(arr);
         mergeSort(arr, 0 , arr.length-1);
+        printArr(arr);
     }
     static void mergeSort(int [] arr, int low , int high){
         if(low >= high) return;
@@ -27,7 +29,7 @@ public class MergeSort {
                 right++;
             }
         }
-        while(left <=mid){
+        while(left <= mid){
             list.add(arr[left]);
             left++;
         }
@@ -36,7 +38,14 @@ public class MergeSort {
             right++;
         }
         for(int i = low ; i <= high ; i++ ){
-            arr[i] = 
+            arr[i] = list.get(i-low);
+        }
+    }
+
+    static void printArr(int [] arr){
+        System.out.println("Array Is : ");
+        for(int i=0 ; i < arr.length ; i++){
+            System.out.print(arr[i] + " ");
         }
     }
 }
