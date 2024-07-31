@@ -1,32 +1,37 @@
 import java.util.Arrays;
+import java.util.Stack;
 
 public class BinarySearchNew {
     public static void main(String[] args) {
-        int[] nums = {4,5,6,7,0,1,2};
-        System.out.println(search(nums, 2));
-
+        String s = "the sky is blue";
+        reverseWords(s);
     }
-    public static int search(int[] nums, int target) {
-        int l = 0;
-        int r = nums.length-1;
 
-        while(l+1 < r){
-            int m = l + (r-l)/2;
-            if(Predicate(nums, nums[m] , l , r , target) == 0 ) l = m;
-            else r = m;
+    public static String reverseWords(String s) {
+        Stack <String> stack =  new Stack<>();
+        String word = "";
+        for(int i = 0 ; i <s.length() ; i++){
+            if(s.charAt(i) == ' ' ){
+                if(i < s.length()-1){
+                    if(s.charAt(i+1) == ' ' ) continue;
+                }
+                stack.push(word);
+                System.out.println(stack);
+                word = "";
+            }
+            else{
+                word+= s.charAt(i);
+            }
         }
-        if(nums[l] == target) return l;
-        if(nums[r] == target) return r;
-        else return -1;
-    }
-    public static int Predicate(int []nums, int m , int l , int r , int target){
-        if(m >= target){
-            if(nums[l] > target) return 0;
-            else return 1;
+
+        String ans="";
+        while(!stack.empty()){
+            if(stack.peek() == ""  ) stack.pop();
+            else {
+                ans+= stack.pop();
+                ans+=" ";
+            }
         }
-        else{
-            if(nums[l] < target) return 1;
-            else return 0;
-        }
+        return ans;
     }
 }
