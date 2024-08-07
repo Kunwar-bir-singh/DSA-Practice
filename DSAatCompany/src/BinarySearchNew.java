@@ -3,35 +3,36 @@ import java.util.Stack;
 
 public class BinarySearchNew {
     public static void main(String[] args) {
-        String s = "the sky is blue";
-        reverseWords(s);
+        int[] nums = {1, 1};
+        int k = 1;
+        System.out.println(splitArray(nums, k));
     }
+    public static int splitArray(int[] nums, int k) {
+        int arrSum = 0;
+        for(int i : nums) arrSum += i;
+        int l = -1;
+        int r = arrSum;
 
-    public static String reverseWords(String s) {
-        Stack <String> stack =  new Stack<>();
-        String word = "";
-        for(int i = 0 ; i <s.length() ; i++){
-            if(s.charAt(i) == ' ' ){
-                if(i < s.length()-1){
-                    if(s.charAt(i+1) == ' ' ) continue;
-                }
-                stack.push(word);
-                System.out.println(stack);
-                word = "";
-            }
-            else{
-                word+= s.charAt(i);
+        while(l+1 < r){
+            int m = l + (r-l)/2;
+            if(Predicate(nums, m , k) == 0) l = m;
+            else r = m;
+        }
+        return r;
+    }
+    public static int Predicate(int[] nums, int mid , int k){
+        int preSum = 0;
+        int noOfSubArrays = 0;
+        for(int j : nums){
+            if(j > mid ) return 0;
+            preSum += j;
+            if(preSum > mid){
+                noOfSubArrays++;
+                preSum = j;
             }
         }
-
-        String ans="";
-        while(!stack.empty()){
-            if(stack.peek() == ""  ) stack.pop();
-            else {
-                ans+= stack.pop();
-                ans+=" ";
-            }
-        }
-        return ans;
+        if(preSum > 0) noOfSubArrays ++;
+        if(noOfSubArrays <= k) return 1;
+        return 0;
     }
 }
