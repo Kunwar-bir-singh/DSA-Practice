@@ -1,38 +1,35 @@
-import java.util.Arrays;
-import java.util.Stack;
+import java.util.*;
 
 public class BinarySearchNew {
     public static void main(String[] args) {
-        int[] nums = {1, 1};
-        int k = 1;
-        System.out.println(splitArray(nums, k));
+        System.out.println(frequencySort("aabcb"));
     }
-    public static int splitArray(int[] nums, int k) {
-        int arrSum = 0;
-        for(int i : nums) arrSum += i;
-        int l = -1;
-        int r = arrSum;
 
-        while(l+1 < r){
-            int m = l + (r-l)/2;
-            if(Predicate(nums, m , k) == 0) l = m;
-            else r = m;
-        }
-        return r;
-    }
-    public static int Predicate(int[] nums, int mid , int k){
-        int preSum = 0;
-        int noOfSubArrays = 0;
-        for(int j : nums){
-            if(j > mid ) return 0;
-            preSum += j;
-            if(preSum > mid){
-                noOfSubArrays++;
-                preSum = j;
+    public static String frequencySort(String s) {
+        String ans = "";
+        HashMap<Character , Integer> map = new HashMap<>();
+        for(int i = 0 ; i < s.length() ; i++){
+            char c = s.charAt(i);
+            if(map.containsKey(c)){
+                int value = map.get(c);
+                map.put(c , ++value);
             }
+            else map.put(c , 1);
         }
-        if(preSum > 0) noOfSubArrays ++;
-        if(noOfSubArrays <= k) return 1;
-        return 0;
+        List<Map.Entry<Character, Integer>> entryList = new ArrayList<>(map.entrySet());
+        entryList.sort(Map.Entry.comparingByValue());
+        Collections.reverse(entryList);
+        System.out.println(entryList);
+
+        for (Map.Entry<Character, Integer> entry : entryList) {
+            ans = addString(ans ,  entry.getKey() ,  entry.getValue());
+        }
+        return ans;
+    }
+    static String addString(String ans , Character c, int reps){
+        for(int i = 0 ; i < reps ; i++){
+            ans += c;
+        }
+        return ans;
     }
 }
