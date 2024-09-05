@@ -2,35 +2,64 @@ package LinkedList;
 
 public class LeetCode345 {
     public static void main(String[] args) {
-        System.out.println(reverseVowels("aA"));
+        System.out.println(myAtoi("   -042"));
     }
-    public static String reverseVowels(String s) {
-        char[] charArray = s.toCharArray();
-        int left = 0;
-        int right = s.length()-1;
+    public static int myAtoi(String s) {
+        int length = 0;
+        String ans = "";
+        int numAns = 0;
+        boolean isNegative = false;
+        boolean gotSign = false;
+        for(int i = 0 ; i < s.length() ; i++){
+            if(s.charAt(i) == ' '){
+                if(length > 0) break;
+            }
+            else if(s.charAt(i) == '+'){
+                if(gotSign)break;
+                if(length > 0)break;
+                gotSign = true;
+                length = 1;
+            }
+            else if(s.charAt(i) == '-'){
+                if(gotSign)break;
+                else if(length > 0) break;
+                else {
+                    isNegative = true;
+                    gotSign = true;
+//                    length = 1;
+                }
+            }
+            else if(s.charAt(i) == '0'){
+                if(length == 0){
+                    continue;
+                }
+                else {
+                    ans += s.charAt(i);
+                    length ++;
+                }
+            }
+            else if(s.charAt(i) >= '1' && s.charAt(i) <= '9'){
+                ans += s.charAt(i);
+                length++;
 
-        while(left < right){
-            if(!isVowel(charArray[left])) left++;
-            if(!isVowel(charArray[right])) right--;
-            if(isVowel(charArray[left]) && isVowel(charArray[right])){
-                swap(charArray , left, right);
-                left++;
-                right--;
+            }
+            else break;
+        }
+        if(ans.length() == 0) return 0;
+        for(int i = 0  ; i< ans.length() ; i++){
+            if(!isNegative){
+                if(numAns *10 < numAns) return Integer.MAX_VALUE;
+                numAns = numAns * 10 + (s.charAt(i)-'0');
+            }
+            else{
+                int spareNum = ans.charAt(i)-'0';
+                spareNum *= -1;
+                if(spareNum *10 > spareNum) return Integer.MIN_VALUE;
+                numAns = numAns * 10 + (ans.charAt(i)-'0');
             }
         }
-        s = new String(charArray);
-        return s ;
-    }
-    public static boolean isVowel(char x){
-        if (x == 'a' || x == 'e' || x == 'i' ||  x == 'o' || x == 'u') return true;
-        if (x == 'A' || x == 'E' || x == 'I' ||  x == 'O' || x == 'U') return true;
-        return false;
-    }
-
-    public static void swap(char[] charArray , int a, int b){
-        char fisVowel = charArray[a];
-        char secVowel = charArray[b];
-        charArray[a] = secVowel;
-        charArray[b] = fisVowel;
+        if(isNegative) return Integer.parseInt(ans)*-1;
+        return Integer.parseInt(ans);
+        // if(isNegative) ans *= -1;
     }
 }
